@@ -8,16 +8,11 @@ import { SectionHeader } from './SectionHeader';
 type RoadmapItem = {
   title: string;
   description: string;
-  status: string;
+  status: 'planning' | 'development' | 'research';
 };
 
 interface RoadmapSectionProps {
-  roadmapItems: {
-    title: string;
-    description: string;
-    // Change -> Make status more specific for our styles
-    status: 'planning' | 'development' | 'research';
-  }[];
+  roadmapItems: readonly RoadmapItem[]; // Use `readonly` for best practice with `as const`
 }
 
 // A small helper to style badges based on status
