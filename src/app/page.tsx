@@ -26,7 +26,7 @@ const roadmapItems = [
   { title: "FileParserAgent", description: "Handle local file uploads (PDFs, TXT, etc.)", status: "development" },
   { title: "SearchAgent", description: "Search the web for relevant URLs automatically", status: "research" },
   { title: "VectorDBIndexerAgent", description: "Chunk, embed, and store content in vector databases", status: "planning" }
-];
+] as const;
 
 export default function LandingPage() {
   return (
