@@ -1,7 +1,6 @@
 // src/app/page.tsx
 
 import { ContactSection } from "@/components/ContactSection";
-import { CtaSection } from "@/components/CtaSection";
 import { FeaturesSection } from "@/components/FeatureSection";
 import { Footer } from "@/components/Footer";
 import { HeroSection } from "@/components/HeroSection";
@@ -39,7 +38,6 @@ export default function LandingPage() {
         <FeaturesSection />
         <RoadmapSection roadmapItems={roadmapItems} />
         <ContactSection />
-        <CtaSection />
       </main>
       <Footer />
     </div>
