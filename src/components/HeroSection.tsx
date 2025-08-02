@@ -1,16 +1,15 @@
 'use client';
 
-// --- CHANGE: Import useEffect ---
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { AnimatedHeroBackground } from './AnimatedHeroBackground';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { 
-  ArrowRight, 
-  FileText,   
-  Sparkles,   
-  Zap,        
+import {
+  ArrowRight,
+  FileText,
+  Sparkles,
+  Zap,
   Cpu,
   FileSearch,
   LoaderCircle,
@@ -27,13 +26,13 @@ const processSteps = [
   { icon: FileText, label: "Generate PDF" }
 ];
 
-const API_ENDPOINT = "/api/harvest"; 
+const API_ENDPOINT = "/api/harvest";
 
 const isValidUrl = (urlString: string): boolean => {
-  try { 
+  try {
     new URL(urlString);
     return true;
-  } catch { 
+  } catch {
     return false;
   }
 };
@@ -44,19 +43,14 @@ export function HeroSection() {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // --- NEW: useEffect hook to make the success message disappear ---
   useEffect(() => {
-    // Only set a timeout if there is a success message
     if (successMessage) {
       const timer = setTimeout(() => {
-        setSuccessMessage(null); // Clear the message after 3 seconds
+        setSuccessMessage(null);
       }, 3000);
-
-      // This is a cleanup function. It runs if the component unmounts
-      // or if the effect runs again before the 3 seconds are up.
       return () => clearTimeout(timer);
     }
-  }, [successMessage]); // This array tells the effect to run ONLY when successMessage changes
+  }, [successMessage]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -90,7 +84,7 @@ export function HeroSection() {
       const blobUrl = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = blobUrl;
-      
+
       const disposition = response.headers.get('content-disposition');
       let filename = `report_${new URL(url).hostname}.pdf`;
       if (disposition && disposition.includes('attachment')) {
@@ -106,7 +100,7 @@ export function HeroSection() {
       window.URL.revokeObjectURL(blobUrl);
 
       setSuccessMessage("Success! Your PDF is downloading.");
-      setUrl(''); // Clear the input box
+      setUrl('');
 
     } catch (err) {
       console.error("API call failed:", err);
@@ -133,35 +127,39 @@ export function HeroSection() {
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
               Site<span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">Harvester</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-4xl mx-auto leading-relaxed">
-              An intelligent agent that transforms web content into structured, high-quality documents. 
+            {/* --- CHANGE: Reduced text size on mobile (text-lg) and scaled up from there. --- */}
+            <p className="text-sm sm:text-xl md:text-2xl text-gray-400 mb-12 max-w-4xl mx-auto leading-relaxed">
+              An intelligent agent that transforms web content into structured, high-quality documents.
               Scrape, clean, and synthesize content with AI-powered precision.
             </p>
             <form onSubmit={handleSubmit}>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className="relative group max-w-2xl mx-auto mb-4">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur-md opacity-50 group-hover:opacity-75 transition duration-1000"></div>
-                <div className="relative flex items-center bg-black/40 backdrop-blur-md border border-gray-700 rounded-xl p-2 shadow-lg">
-                  <Zap className="w-5 h-5 text-purple-400 mx-3 flex-shrink-0" />
-                  <input
-                    type="url"
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                    disabled={isLoading}
-                    placeholder="Enter a URL to harvest..."
-                    className="flex-grow bg-transparent text-white placeholder-gray-500 focus:outline-none focus:ring-0 rounded-md disabled:opacity-50"
-                  />
-                  <Button 
-                    type="submit" 
-                    size="lg" 
+                <div className="relative flex flex-col sm:flex-row items-center gap-2 bg-black/40 backdrop-blur-md border border-gray-700 rounded-xl p-2 shadow-lg">
+                  {/* --- CHANGE: Added flex-grow to this container to make it take all available width. --- */}
+                  <div className="w-full flex-grow flex items-center bg-transparent rounded-md">
+                    <Zap className="w-5 h-5 text-purple-400 mx-3 flex-shrink-0" />
+                    <input
+                      type="url"
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      disabled={isLoading}
+                      placeholder="Enter a URL to harvest..."
+                      // --- CHANGE: Removed w-full as the parent now controls the width. ---
+                      className="flex-grow bg-transparent text-white placeholder-gray-500 focus:outline-none focus:ring-0 disabled:opacity-50"
+                    />
+                  </div>
+                  <Button
+                    type="submit"
                     disabled={isLoading || !url.trim()}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed w-32"
+                    className="w-full sm:w-32 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed flex-shrink-0"
                   >
                     {isLoading ? <LoaderCircle className="animate-spin w-5 h-5" /> : 'Harvest'}
                   </Button>
                 </div>
               </motion.div>
             </form>
-            
+
             <div className="mt-4 h-6">
               {error && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-center gap-2 text-red-400">
@@ -170,9 +168,9 @@ export function HeroSection() {
                 </motion.div>
               )}
               {successMessage && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }} 
-                  animate={{ opacity: 1, y: 0 }} 
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
                   className="flex items-center justify-center gap-2"
                   style={{ color: '#22c55e' }}
                 >
@@ -184,15 +182,29 @@ export function HeroSection() {
           </motion.div>
 
           <div className="mt-16">
-            <motion.div className="flex items-center justify-start md:justify-center gap-2 md:gap-4 max-w-full lg:max-w-5xl mx-auto px-4 overflow-x-auto md:overflow-visible pb-4" initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ staggerChildren: 0.2 }}>
+            <motion.div
+              className="grid grid-cols-2 gap-4 md:flex md:items-center md:justify-center md:gap-4 max-w-md mx-auto md:max-w-5xl"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ staggerChildren: 0.2 }}
+            >
               {processSteps.map((step, index) => (
                 <React.Fragment key={index}>
-                  <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className={`flex flex-col items-center justify-center p-4 rounded-xl ${glossyCardClass} w-36 h-36 shrink-0`}>
+                  <motion.div
+                    variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+                    // --- CHANGE: Added `relative` to allow positioning of the number badge. ---
+                    className={`relative flex flex-col items-center justify-center p-4 rounded-xl ${glossyCardClass} w-full h-36 md:w-36 shrink-0`}
+                  >
+                    {/* --- CHANGE: Added a numbered badge for mobile view. Hidden on md screens. --- */}
+                    <div className="md:hidden absolute top-2 left-2 w-6 h-6 flex items-center justify-center bg-gray-700/50 rounded-full text-xs text-gray-300">
+                      {index + 1}
+                    </div>
                     <step.icon className="w-8 h-8 mb-3 text-purple-400" />
                     <span className="text-sm font-semibold text-center text-gray-200">{step.label}</span>
                   </motion.div>
                   {index < processSteps.length - 1 && (
-                    <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="shrink-0 text-gray-600">
+                    <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="hidden md:block shrink-0 text-gray-600">
                       <ArrowRight className="w-8 h-8" />
                     </motion.div>
                   )}
