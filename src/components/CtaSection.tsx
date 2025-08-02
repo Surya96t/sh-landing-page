@@ -22,7 +22,7 @@ export function CtaSection() {
             <p className="text-xl text-gray-400 mb-8">
               Start harvesting and structuring web content with AI-powered precision
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:opacity-90 transition-all group">
                 Get Started on GitHub
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -31,7 +31,7 @@ export function CtaSection() {
                 <FileText className="w-5 h-5 mr-2" />
                 Read the Docs
               </Button>
-            </div>
+            </div> */}
           </Card>
         </motion.div>
       </div>
