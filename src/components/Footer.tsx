@@ -8,7 +8,7 @@ export function Footer() {
             <span className="text-xl font-bold text-white">SiteHarvester</span>
           </div>
           <p className="text-gray-500 text-center text-sm">
-            Built with LangGraph • Open Source • Under Active Development
+            Built with LangGraph • Under Active Development
           </p>
         </div>
       </div>

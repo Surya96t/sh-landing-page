@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Read the secure environment variables on the server-side
-    const apiEndpoint = process.env.SITEHARVESTER_API_URL;
+    const apiEndpoint = process.env.SITEHARVESTER_PROCESS_API;
     const apiKey = process.env.SITEHARVESTER_API_KEY;
 
     if (!apiEndpoint || !apiKey) {
